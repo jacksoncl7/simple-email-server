@@ -1,4 +1,4 @@
-require 'test_helper'
+require_relative './test_helper'
 
 class MailBoxTest < Minitest::Test
   def test_create_box
@@ -16,7 +16,7 @@ class MailBoxTest < Minitest::Test
   end
 
   def test_client_not_found
-    assert_raises Error do
+    assert_raises IOError do
       MailBox.new(@client_base).create_box('mariowho')
     end
   end
