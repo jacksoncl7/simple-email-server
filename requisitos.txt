@@ -1,0 +1,28 @@
+Essa avaliação consiste na implementação de um protótipo simplificado de servidor de e-mail (SMTP) utilizando sockets.
+
+O servidor deverá receber como argumento de linha de comando o nome de um arquivo. Esse arquivo conterá a lista de usuários do serviço de e-mail, um por linha. Isto é, esse arquivo terá o seguinte formato:
+
+<nome_usuário_1>
+<nome_usuário_2>
+<nome_usuário_3>
+...
+<nome_usuário_n>
+
+Ao ser iniciado, o servidor deverá ler esse arquivo e deverá criar caixas de entrada para cada um dos usuários. A caixa de entrada de um usuário é simplesmente um arquivo inicialmente vazio. Nessa implementação simplificada, o servidor deve criar os arquivos das caixas de entrada no próprio diretório de onde ele é executado.
+
+Uma vez criadas as caixas, o servidor deverá esperar por conexões de clientes SMTP. A cada nova conexão recebida, o servidor deverá interagir com o cliente. Para cada e-mail enviado pelo cliente, o servidor deverá verificar se o usuário destinatário existe e deverá gravar o conteúdo do e-mail no final da caixa (ou seja, as mensagens anteriores na caixa não devem ser apagadas). Note que o conteúdo da mensagem a ser armazenado na caixa de entrada corresponde a todos os bytes enviados pelo cliente no comando SMTP "data" (isto é, tudo imediatamente após "data" e até imediatamente antes da linha com o caractere '.' demarcando o final da mensagem).
+
+Note pela descrição do parágrafo anterior que, em uma mesma conexão, um cliente pode enviar múltiplas mensagens. Ao final da conexão com um cliente, o servidor deverá voltar ao estado em que aguarda novas conexões. O programa *não* precisa suportar múltiplas conexões simultâneas.
+
+Por se tratar de um protótipo, apenas as mensagens SMTP vistas no material didático da disciplina precisam ser suportadas pelo servidor. Em termos de tratamento de erros, o servidor deverá implementar apenas os seguintes:
+1. Na inicialização, verificar se o arquivo com a lista de usuários foi corretamente passado como argumento. Qualquer erro na leitura desse processo (e.g., arquivo não existe, o formato não é o esperado) deverá gerar uma mensagem de erro e a execução deverá abortar.
+2. Durante a conexão de um cliente, o servidor deverá verificar se os comandos recebidos estão corretos de acordo com o protocolo. Caso estejam, deverá enviar as respostas adequadas previstas no SMTP. Caso contrário, deverá responder com "500 Syntax error, command unrecognized". Note que a conexão *não deve ser encerrada nesse caso*.
+3. Durante a conexão de um cliente, caso o destinatário especificado não seja um dos usuários do sistema, o servidor deverá responder com "550 Address unknown". Note que a conexão *não deve ser encerrada nesse caso*.
+
+A linguagem de programação é de livre escolha de cada grupo, mas o código-fonte deve ser compilável/executável utilizando apenas ferramentas gratuitas. Outras restrições a serem observadas pelo grupo:
+- Os grupos devem ter, no máximo, 5 integrantes.
+- O programa deverá obrigatoriamente utilizar sockets para a comunicação com os clientes. Todo o código que manipula os sockets e gera e interpreta as mensagens e respostas SMTP deverá ser de autoria do grupo (i.e., não serão aceitos programas em que esses trechos sejam copiados de qualquer fonte ou que utilizem bibliotecas prontas para esses fins).
+- Por outro lado, funções básicas da linguagem escolhida para, por exemplo, manipulação de strings podem ser livremente utilizadas.
+- O trabalho deverá ser entregue no formato zip, contendo todo o código fonte necessário para executar/compilar o programa e um arquivo README descrevendo os processos de compilação e execução. O arquivo README deverá também listar os nomes dos integrantes do grupo.
+- As entregas deverão ser realizadas por um dos integrantes do grupo através dessa atividade do Classroom.
+- Após a entrega, não serão aceitas modificações na composição do grupo.
